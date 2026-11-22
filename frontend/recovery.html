@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>รับมือเมื่อถูกหลอก — ตรวจสอบข้อความหลอกลวง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/static/style.css" />
+<link rel="stylesheet" href="/static/trend.css?v=4" />
+<link rel="stylesheet" href="/static/recovery.css?v=3" />
+<script src="/static/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-nav">
+    <a class="brand" href="/">
+      <span class="brand-name">ตรวจสอบข้อความ</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">หน้าแรก</a>
+      <a href="/history" class="nav-link">ประวัติการตรวจสอบ</a>
+      <a href="/trend" class="nav-link">แนวโน้มความเสี่ยง</a>
+      <a href="/recovery" class="nav-link is-active">รับมือเมื่อถูกหลอก</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="icon-btn" type="button" title="สลับธีมสี">☀️</button>
+      <div id="authArea" class="auth-area"></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <h1 class="hero-title rc-title">ถูกหลอกไปแล้ว? ตั้งสติ แล้วทำตามนี้</h1>
+
+    <section class="panel rc-panel" aria-labelledby="rcPickTitle">
+      <h2 id="rcPickTitle" class="panel-label">เกิดอะไรขึ้น (ติ๊กได้หลายข้อ)</h2>
+      <div id="rcCases" class="rc-cases" role="group" aria-labelledby="rcPickTitle"></div>
+    </section>
+
+    <div id="rcHint" class="empty-state">ติ๊กอย่างน้อยหนึ่งข้อด้านบน เพื่อดูว่าควรทำอะไร</div>
+
+    <div id="rcUrgent" class="panel rc-panel rc-urgent hidden" aria-live="polite">
+      <h2 class="panel-label">ทำก่อน</h2>
+      <ol id="rcUrgentList" class="rc-steps"></ol>
+    </div>
+
+    <div id="rcResults" class="rc-results"></div>
+
+    <section id="rcEvidence" class="panel rc-panel hidden" aria-labelledby="rcEvidenceTitle">
+      <h2 id="rcEvidenceTitle" class="panel-label">เก็บหลักฐาน</h2>
+      <ul id="rcEvidenceList" class="rc-list"></ul>
+
+      <details class="rc-summary">
+        <summary>ช่วยเรียบเรียงสรุปเหตุการณ์ไว้คัดลอกตอนแจ้ง</summary>
+        <p class="chart-note">
+          กรอกเท่าที่จำได้ ข้อความที่ได้อยู่ในเบราว์เซอร์ของคุณเท่านั้น ไม่ถูกส่งหรือเก็บไว้ที่ใด
+        </p>
+        <div class="rc-form">
+          <label>วันและเวลาที่เกิดเหตุ<input id="fWhen" type="text" autocomplete="off" /></label>
+          <label>ช่องทางที่ถูกติดต่อ (เช่น SMS โทรศัพท์ LINE Facebook)<input id="fChannel" type="text" autocomplete="off" /></label>
+          <label>เบอร์โทร หรือชื่อบัญชีที่ติดต่อมา<input id="fContact" type="text" autocomplete="off" /></label>
+          <label>สิ่งที่ทำไปแล้ว และยอดเงิน (ถ้ามี)<input id="fAction" type="text" autocomplete="off" /></label>
+          <label>บัญชีปลายทางที่โอนไป (ธนาคาร ชื่อ เลขบัญชี)<input id="fAccount" type="text" autocomplete="off" /></label>
+          <label>เล่าเหตุการณ์โดยย่อ<textarea id="fStory" rows="4"></textarea></label>
+        </div>
+        <div class="rc-summary-actions">
+          <button id="fCopy" class="btn btn-primary btn-small" type="button">คัดลอกสรุป</button>
+          <span id="fCopied" class="rc-copied hidden" role="status">คัดลอกแล้ว</span>
+        </div>
+        <pre id="fOutput" class="rc-output" aria-label="สรุปเหตุการณ์"></pre>
+      </details>
+    </section>
+
+    <section class="panel rc-panel" aria-labelledby="rcContactTitle">
+      <h2 id="rcContactTitle" class="panel-label">ช่องทางติดต่อที่เกี่ยวข้อง</h2>
+      <div class="rc-contacts">
+        <div class="rc-contact rc-contact-static">
+          <span class="rc-contact-num">โทร 1441</span>
+          <span class="rc-contact-name">ศูนย์ AOC</span>
+          <span class="rc-contact-desc">แจ้งเหตุถูกหลอกออนไลน์ และขอให้ระงับบัญชีปลายทาง</span>
+        </div>
+        <div class="rc-contact rc-contact-static">
+          <span class="rc-contact-num">โทร 1213</span>
+          <span class="rc-contact-name">ศูนย์คุ้มครองผู้ใช้บริการทางการเงิน ธปท.</span>
+          <span class="rc-contact-desc">ขอคำปรึกษาเรื่องบริการทางการเงิน</span>
+        </div>
+        <div class="rc-contact rc-contact-static">
+          <span class="rc-contact-num rc-contact-num-text">ธนาคารของคุณ</span>
+          <span class="rc-contact-name">ติดต่อผ่านเบอร์จากเว็บไซต์หรือแอปทางการของธนาคาร (เช่น เบอร์หลังบัตร)</span>
+          <span class="rc-contact-desc">ไม่ใช้เบอร์จากข้อความหรือจากคนที่ติดต่อมาหาคุณ</span>
+        </div>
+        <a class="rc-contact" href="https://thaipoliceonline.go.th/" target="_blank" rel="noopener noreferrer">
+          <span class="rc-contact-num rc-contact-num-text">แจ้งความออนไลน์</span>
+          <span class="rc-contact-name">thaipoliceonline.go.th</span>
+          <span class="rc-contact-desc">ศูนย์ปราบปรามอาชญากรรมทางเทคโนโลยีสารสนเทศ สำนักงานตำรวจแห่งชาติ</span>
+        </a>
+      </div>
+    </section>
+
+    <p class="disclaimer-note">
+      หน้านี้สรุปแนวทางเบื้องต้นจากข้อมูลที่หน่วยงานทางการเผยแพร่ ไม่ใช่คำแนะนำทางกฎหมาย และไม่รับประกันว่าจะได้เงินคืน
+      ขั้นตอนและเบอร์ติดต่ออาจเปลี่ยนแปลง ควรตรวจสอบจากเว็บไซต์ของหน่วยงานโดยตรงก่อนดำเนินการ
+      หากมีเหตุเร่งด่วนให้ติดต่อธนาคารและตำรวจทันที
+    </p>
+  </main>
+
+  <footer class="app-footer">
+    <span>หน้านี้ไม่เก็บและไม่ส่งข้อมูลที่คุณเลือกหรือกรอกไปที่เซิร์ฟเวอร์</span>
+  </footer>
+
+<script src="/static/recovery.js?v=2"></script>
+</body>
+</html>

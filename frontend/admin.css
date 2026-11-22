@@ -1,0 +1,51 @@
+/* admin.css — เฉพาะหน้าจัดการระบบ (ใช้ร่วมกับ style.css และ trend.css) */
+.risk-split { display: flex; width: 100%; min-height: 38px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-soft); }
+.risk-split-seg { display: flex; align-items: center; justify-content: center; min-width: 38px; font-size: 0.85rem; font-weight: 700; color: #fff; }
+.risk-split-seg.is-low { background: var(--accent-safe); }
+.risk-split-seg.is-caution { background: var(--accent-caution); }
+.risk-split-seg.is-high { background: var(--accent-danger); }
+
+/* คำอธิบายสี (legend) และกราฟแท่งซ้อน แยกสีตามระดับความเสี่ยงเหมือนทั้งเว็บ */
+.adm-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 12px 0 4px; font-size: 0.86rem; color: var(--text-secondary); }
+.adm-legend-item { display: inline-flex; align-items: center; gap: 8px; }
+.adm-dot { display: inline-block; width: 11px; height: 11px; border-radius: 4px; flex-shrink: 0; }
+.adm-dot.is-low { background: var(--accent-safe); }
+.adm-dot.is-caution { background: var(--accent-caution); }
+.adm-dot.is-high { background: var(--accent-danger); }
+
+.adm-seg.is-low { fill: var(--accent-safe); }
+.adm-seg.is-caution { fill: var(--accent-caution); }
+.adm-seg.is-high { fill: var(--accent-danger); }
+.adm-empty { fill: var(--line-strong); }
+.adm-axis { stroke: var(--line-strong); stroke-width: 1.2; }
+.adm-day.is-hover .adm-seg { filter: brightness(1.12); }
+.adm-day.is-hover .adm-empty { fill: var(--text-tertiary); }
+.lc-axis-text.adm-today { fill: var(--text-primary); font-weight: 700; }
+.adm-tip { min-width: 150px; }
+.adm-tip strong { display: block; margin-bottom: 2px; }
+.adm-tip-row { display: flex; align-items: center; gap: 7px; margin-top: 2px; }
+
+.adm-badge { display: inline-block; padding: 0 8px; margin-left: 4px; border-radius: 999px; background: var(--brand-soft); color: var(--brand); font-size: 0.75rem; font-weight: 700; }
+.adm-actions { white-space: nowrap; }
+.adm-actions .btn { margin-right: 6px; }
+.btn-small.btn-danger-ghost { padding: 8px 14px; }
+
+.admin-dialog { border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--text-primary); box-shadow: var(--shadow-card); padding: 22px 24px; width: min(440px, calc(100vw - 32px)); }
+.admin-dialog::backdrop { background: rgba(15, 23, 42, 0.45); }
+.admin-dialog-title { margin: 0 0 8px; font-size: 1.05rem; }
+.admin-dialog .form-input { width: 100%; margin-top: 4px; }
+.admin-dialog-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.admin-dialog-row .chart-note { margin: 0; flex: 1; min-width: 160px; }
+.admin-dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.admin-error { margin: 10px 0 0; color: var(--accent-danger); font-size: 0.88rem; }
+.status-banner.is-success { word-break: break-word; }
+
+@media (max-width: 720px) {
+  .adm-actions { white-space: normal; }
+  .adm-actions .btn { margin-bottom: 6px; }
+}
+
+/* จอแคบ: กราฟและตารางเลื่อนซ้าย-ขวาแทนการบีบจนอ่านไม่ออก */
+.bar-chart-wrap { overflow-x: auto; }
+.bar-chart-wrap svg { min-width: 560px; }
+#userTable { min-width: 620px; }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ตรวจสอบข้อความหลอกลวง — เครื่องมือวิเคราะห์ข้อความภาษาไทย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/static/style.css?v=3" />
+<link rel="stylesheet" href="/static/recovery.css?v=3" />
+<script src="/static/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-nav">
+    <a class="brand" href="/">
+      <span class="brand-name">ตรวจสอบข้อความ</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link is-active">หน้าแรก</a>
+      <a href="/history" class="nav-link">ประวัติการตรวจสอบ</a>
+      <a href="/trend" class="nav-link">แนวโน้มความเสี่ยง</a>
+      <a href="/recovery" class="nav-link">รับมือเมื่อถูกหลอก</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="icon-btn" type="button" title="สลับธีมสี">☀️</button>
+      <div id="authArea" class="auth-area"></div>
+    </div>
+  </header>
+
+  <main class="hero">
+
+    <h1 class="hero-title">ตรวจสอบข้อความหลอกลวง</h1>
+    <p class="hero-sub">วางข้อความที่น่าสงสัย ระบบจะแยกให้ว่าเป็นข้อความปกติหรือข้อความหลอกลวง</p>
+
+    <div id="statusBanner" class="status-banner hidden" role="alert"></div>
+
+    <section class="check-card" id="checkStep">
+      <textarea
+        id="messageInput"
+        class="message-input"
+        rows="6"
+        placeholder="เช่น ยินดีด้วย คุณได้รับอนุมัติสินเชื่อ 50,000 บาท คลิกลิงก์เพื่อรับเงิน..."
+      ></textarea>
+
+      <p class="card-hint">ข้อความที่ตรวจจะแสดงในประวัติของบัญชีคุณ (ล่าสุด 20 รายการ) ส่วนแนวโน้มเก็บเฉพาะระดับความเสี่ยงของแต่ละครั้ง ไม่เก็บข้อความ ลบประวัติรายการใด แนวโน้มจะไม่นับรายการนั้นด้วย</p>
+
+      <div class="example-row">
+        <span class="example-row-label">ลองตัวอย่าง</span>
+        <div class="chip-list" id="chipList"></div>
+      </div>
+
+      <div class="action-row">
+        <button id="clearBtn" class="btn btn-ghost">↺ ล้างข้อความ</button>
+        <button id="submitBtn" class="btn btn-primary btn-wide">ตรวจสอบข้อความ →</button>
+      </div>
+    </section>
+
+    <section class="verdict-card hidden" id="resultStep">
+      <div class="verdict-head">
+        <span class="verdict-label">ผลการวิเคราะห์</span>
+        <button id="backToCheckBtn" class="btn btn-ghost btn-small" type="button">← ตรวจสอบข้อความอื่น</button>
+      </div>
+
+      <div class="risk-legend">
+        <div class="risk-legend-item"><span class="dot is-low"></span><strong>ความเสี่ยงต่ำ</strong> — ข้อความทั่วไป</div>
+        <div class="risk-legend-item"><span class="dot is-caution"></span><strong>ควรระมัดระวัง</strong> — ยังสรุปไม่ได้ ตรวจสอบก่อนทำตาม</div>
+        <div class="risk-legend-item"><span class="dot is-high"></span><strong>ความเสี่ยงสูง</strong> — ข้อความหลอกลวง</div>
+      </div>
+
+      <div id="emptyState" class="empty-state">
+        ผลการวิเคราะห์จะแสดงที่นี่ หลังจากกดตรวจสอบข้อความ
+      </div>
+
+      <div id="resultState" class="result-state hidden">
+        <div id="riskStrip" class="risk-strip">
+          <div class="risk-level" id="riskLevel">—</div>
+        </div>
+
+        <div class="meter-track">
+          <div id="meterFill" class="meter-fill"></div>
+        </div>
+
+        <div id="riskAdvice" class="risk-advice"></div>
+
+        <a id="recoveryLink" class="recovery-link hidden" href="/recovery">
+          <strong>ทำตามข้อความนี้ไปแล้วใช่ไหม</strong> ดูขั้นตอนที่หน่วยงานทางการแนะนำให้ทำต่อ →
+        </a>
+
+        <div class="insight-panel">
+          <h3 class="insight-title">รายละเอียดการตรวจสอบ</h3>
+          <p class="insight-subtitle">นี่คือสิ่งที่เราพบ และสิ่งที่คุณควรทำต่อไป</p>
+
+          <div class="insight-grid">
+            <div class="insight-card">
+              <h4 class="insight-card-title">สัญญาณที่พบ</h4>
+              <ul class="insight-list" id="signalsList"></ul>
+            </div>
+            <div class="insight-card">
+              <h4 class="insight-card-title" id="actionsTitle">คำแนะนำที่ควรทำ</h4>
+              <ul class="insight-list" id="actionsList"></ul>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="disclaimer-note">
+          ผลลัพธ์นี้เป็นการประเมินโดยโมเดล AI เท่านั้น ไม่ใช่ข้อสรุปที่แม่นยำ 100%
+          โปรดใช้วิจารณญาณประกอบการตัดสินใจเสมอ
+        </p>
+      </div>
+
+      <div id="loadingState" class="loading-state hidden">กำลังวิเคราะห์ข้อความ...</div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span id="modelStatusText">กำลังตรวจสอบสถานะโมเดล...</span>
+  </footer>
+
+<script src="/static/script.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ข้อกำหนดการใช้งาน — ตรวจสอบข้อความ SMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Chonburi&family=Noto+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/static/style.css" />
+<script src="/static/theme.js"></script>
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <header class="app-header">
+      <div class="app-header-text">
+        <h1>ข้อกำหนดการใช้งาน</h1>
+        <p class="subtitle">Terms of Service</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="icon-btn" type="button" title="สลับธีมสี">☀️</button>
+      </div>
+    </header>
+
+    <main class="legal-content">
+
+      <section class="panel legal-section">
+        <h2 class="panel-label">1. วัตถุประสงค์ของระบบ</h2>
+        <p>
+          เว็บแอปพลิเคชันนี้จัดทำขึ้นโดยมีจุดประสงค์เพื่อช่วยประเมินเบื้องต้นว่าข้อความที่ได้รับ
+          มีลักษณะเป็นข้อความปกติหรือมีแนวโน้มเป็นข้อความหลอกลวง โดยใช้แบบจำลองที่ผ่านการฝึกฝนมาแล้ว
+        </p>
+      </section>
+
+      <section class="panel legal-section">
+        <h2 class="panel-label">2. ข้อจำกัดความรับผิดชอบ</h2>
+        <p>
+          ผลการวิเคราะห์จากระบบนี้เป็นการประเมินโดยแบบจำลองเท่านั้น <strong>ไม่ใช่ข้อสรุปที่แม่นยำ 100%</strong>
+          และไม่ถือเป็นคำแนะนำทางกฎหมาย การเงิน หรือความปลอดภัยอย่างเป็นทางการ ผู้ใช้งานควรใช้วิจารณญาณ
+          ของตนเองประกอบการตัดสินใจเสมอ ทางผู้จัดทำไม่รับผิดชอบต่อความเสียหายใดๆ ที่อาจเกิดขึ้นจากการนำ
+          ผลการวิเคราะห์ไปใช้โดยไม่ผ่านการพิจารณาด้วยวิจารณญาณของผู้ใช้งานเอง
+        </p>
+      </section>
+
+      <section class="panel legal-section">
+        <h2 class="panel-label">3. ข้อมูลที่จัดเก็บ</h2>
+        <p>ระบบจัดเก็บข้อมูลต่อไปนี้เพื่อการทำงานของระบบสมาชิกและฟีเจอร์ประวัติการตรวจสอบ:</p>
+        <ul class="insight-list legal-list">
+          <li>ชื่อผู้ใช้ (username) ที่ใช้สมัครสมาชิก</li>
+          <li>รหัสผ่านในรูปแบบเข้ารหัส (hash) เท่านั้น ไม่เก็บรหัสผ่านจริง และไม่มีผู้ใดสามารถย้อนดูรหัสผ่านจริงของท่านได้</li>
+          <li>ประวัติการตรวจสอบ ได้แก่ ข้อความที่ท่านนำมาตรวจสอบ ระดับความเสี่ยงที่ระบบประเมินได้ และเวลาที่ตรวจสอบ</li>
+        </ul>
+        <p>
+          <strong>ประวัติการตรวจสอบเก็บล่าสุดไม่เกิน 20 รายการต่อบัญชี</strong>
+          (รายการเก่าที่เกินจะถูกลบอัตโนมัติ) แสดงให้เห็นได้เฉพาะเจ้าของบัญชีเท่านั้น
+          และท่านสามารถลบรายการเดียวหรือล้างประวัติทั้งหมดได้ทุกเมื่อที่หน้า "ประวัติการตรวจสอบ"
+          จึงไม่ควรนำข้อความที่มีข้อมูลส่วนตัวสำคัญ เช่น เลขบัตรประชาชน หรือรหัส OTP มาตรวจสอบในระบบนี้
+        </p>
+      </section>
+
+      <section class="panel legal-section">
+        <h2 class="panel-label">4. ข้อตกลงในการใช้งาน</h2>
+        <ul class="insight-list legal-list">
+          <li>ท่านตกลงจะไม่นำระบบนี้ไปใช้ในทางที่ผิดกฎหมายหรือละเมิดสิทธิของผู้อื่น</li>
+          <li>ท่านตกลงจะไม่พยายามโจมตี รบกวน หรือทำให้ระบบทำงานผิดปกติ (เช่น การส่ง request จำนวนมากผิดปกติ)</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-links">
+        <a href="/" class="legal-link">← กลับหน้าหลัก</a>
+        <a href="/contact" class="legal-link">ติดต่อผู้ดูแลระบบ</a>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แนวโน้มความเสี่ยงส่วนบุคคล — ตรวจสอบข้อความหลอกลวง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/static/style.css" />
+<link rel="stylesheet" href="/static/trend.css?v=3" />
+<script src="/static/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-nav">
+    <a class="brand" href="/">
+      <span class="brand-name">ตรวจสอบข้อความ</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">หน้าแรก</a>
+      <a href="/history" class="nav-link">ประวัติการตรวจสอบ</a>
+      <a href="/trend" class="nav-link is-active">แนวโน้มความเสี่ยง</a>
+      <a href="/recovery" class="nav-link">รับมือเมื่อถูกหลอก</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="icon-btn" type="button" title="สลับธีมสี">☀️</button>
+      <div id="authArea" class="auth-area"></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <h1 class="hero-title">แนวโน้มความเสี่ยงส่วนบุคคล</h1>
+    <p class="hero-sub">
+      ดูว่าข้อความที่คุณนำมาตรวจสอบมีสัดส่วนที่ระบบพบความเสี่ยงมากหรือน้อยเพียงใด และเปลี่ยนไปอย่างไรตามช่วงเวลา
+    </p>
+
+    <div id="statusBanner" class="status-banner hidden" role="alert"></div>
+
+    <div class="range-bar" role="group" aria-label="เลือกช่วงเวลา">
+      <button type="button" class="range-btn" data-days="7" aria-pressed="false">1 สัปดาห์</button>
+      <button type="button" class="range-btn is-active" data-days="30" aria-pressed="true">1 เดือน</button>
+      <button type="button" class="range-btn" data-days="90" aria-pressed="false">3 เดือน</button>
+      <button type="button" class="range-btn" data-days="180" aria-pressed="false">6 เดือน</button>
+      <button type="button" class="range-btn" data-days="365" aria-pressed="false">1 ปี</button>
+    </div>
+
+    <div id="trendLoading" class="loading-state">กำลังโหลดข้อมูล...</div>
+
+    <div id="trendEmpty" class="empty-state hidden">
+      ยังไม่มีข้อมูลให้สรุป ลองไปตรวจสอบข้อความที่หน้าแรกก่อนสักครั้ง
+      <div style="margin-top: 16px;"><a class="btn btn-primary" href="/" style="text-decoration:none; display:inline-block;">ไปตรวจสอบข้อความ</a></div>
+    </div>
+
+    <div id="trendContent" class="dashboard-content hidden">
+
+      <p id="incompleteNote" class="trend-warn hidden" role="note"></p>
+
+      <p id="trendHeadline" class="trend-headline" aria-live="polite"></p>
+
+      <section class="trend-cards" aria-label="สรุปภาพรวมในช่วงที่เลือก">
+        <div class="summary-card">
+          <span class="summary-card-label">ข้อความที่ตรวจสอบ</span>
+          <span id="cardTotal" class="summary-card-value">—</span>
+          <span class="summary-card-unit" id="cardTotalNote">ข้อความ</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-label">ที่ระบบพบความเสี่ยง</span>
+          <span id="cardRisky" class="summary-card-value">—</span>
+          <span class="summary-card-unit" id="cardRiskyNote">ข้อความ</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-label">ข้อความปกติ</span>
+          <span id="cardNormal" class="summary-card-value">—</span>
+          <span class="summary-card-unit">ข้อความ</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-label">สัดส่วนข้อความที่มีความเสี่ยง</span>
+          <span id="cardRate" class="summary-card-value">—</span>
+          <span class="summary-card-unit">ของข้อความที่ตรวจในช่วงนี้</span>
+        </div>
+      </section>
+
+      <section class="panel dash-panel">
+        <h2 class="panel-label">สัดส่วนข้อความที่มีความเสี่ยงตามช่วงเวลา</h2>
+        <div id="riskBarChart" class="bar-chart-wrap"></div>
+        <p class="chart-note" id="chartNote"></p>
+        <details class="chart-table-view">
+          <summary>ดูข้อมูลของกราฟเป็นตาราง</summary>
+          <div class="help-wrap"><table class="cmp-table" id="chartTable"></table></div>
+        </details>
+      </section>
+
+      <p class="disclaimer-note">
+        ข้อความที่มีความเสี่ยง = ระดับ "ควรระมัดระวัง" หรือ "ความเสี่ยงสูง" ที่ระบบประเมินจากข้อความที่คุณนำมาตรวจ
+        และคำนวณจากการตรวจสอบของบัญชีคุณ (ไม่มีการเก็บเนื้อหาข้อความเพิ่ม) รายการที่คุณลบออกจากประวัติจะไม่ถูกนับในแนวโน้มด้วย<br />
+        ผลลัพธ์นี้เป็นการประเมินโดยโมเดล AI เท่านั้น ไม่ใช่ข้อสรุปที่แม่นยำ 100%
+        โปรดใช้วิจารณญาณประกอบการตัดสินใจเสมอ
+      </p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <span>สรุปจากประวัติของบัญชีคุณเท่านั้น ไม่แสดงให้ผู้ใช้อื่นเห็น</span>
+  </footer>
+
+<script src="/static/trend.js?v=4"></script>
+</body>
+</html>

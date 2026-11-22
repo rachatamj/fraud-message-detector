@@ -1,0 +1,63 @@
+/* trend.css — สไตล์เฉพาะหน้าแนวโน้มความเสี่ยง (ใช้ตัวแปรสี/ธีมจาก style.css) */
+/* ============================================================
+   Personal Risk Trend page (เพิ่มใหม่ — ไม่แก้กฎ CSS เดิมด้านบน)
+   ============================================================ */
+.dashboard-content { display: flex; flex-direction: column; gap: 20px; text-align: left; }
+.dash-panel { text-align: left; }
+.hbar-empty { margin: 0; padding: 22px 0; text-align: center; color: var(--text-tertiary); font-size: 0.92rem; }
+.trend-warn { margin: 0; padding: 12px 16px; border: 1px solid var(--accent-caution); background: var(--accent-caution-dim); border-radius: var(--radius-sm); font-size: 0.88rem; line-height: 1.6; }
+
+.summary-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; }
+.summary-card-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; color: var(--text-tertiary); }
+.summary-card-value { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.01em; color: var(--text-primary); }
+.summary-card-unit { font-size: 0.82rem; color: var(--text-tertiary); }
+
+.range-bar { display: inline-flex; gap: 4px; padding: 4px; margin: 4px auto 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.range-btn { border: 0; background: transparent; color: var(--text-secondary); font: inherit; font-weight: 600; font-size: 0.9rem; padding: 8px 18px; border-radius: 999px; cursor: pointer; }
+.range-btn:hover { background: var(--brand-soft); color: var(--text-primary); }
+.range-btn.is-active { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
+.range-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.trend-headline { margin: 0 0 14px; font-size: 1.05rem; line-height: 1.7; color: var(--text-primary); text-align: left; }
+.trend-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+.trend-status { display: flex; gap: 16px; align-items: center; }
+.trend-status-icon { flex: 0 0 auto; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 1.5rem; font-weight: 800; border: 2px solid var(--line-strong); color: var(--text-secondary); }
+.trend-status.is-up .trend-status-icon { border-color: var(--accent-caution); color: var(--accent-caution); background: var(--accent-caution-dim); }
+.trend-status.is-down .trend-status-icon { border-color: var(--accent-safe); color: var(--accent-safe); background: var(--accent-safe-dim); }
+.trend-status-text { margin: 0; font-size: 0.93rem; line-height: 1.65; color: var(--text-secondary); }
+
+.bar-chart-wrap, .line-chart-wrap { position: relative; width: 100%; }
+.bar-chart-wrap svg, .line-chart-wrap svg { display: block; width: 100%; height: auto; overflow: visible; }
+.lc-grid { stroke: var(--line); stroke-width: 1; }
+.lc-axis-text { fill: var(--text-tertiary); font-size: 11px; font-family: var(--font-body); }
+.lc-line { fill: none; stroke: var(--brand); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.lc-dot { fill: var(--brand); stroke: var(--surface); stroke-width: 2; }
+.lc-dot.is-hover { stroke: var(--text-primary); }
+.lc-base { stroke: var(--text-tertiary); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.lc-base-text { fill: var(--text-secondary); font-size: 11px; font-family: var(--font-body); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.lc-cross { stroke: var(--line-strong); stroke-width: 1; }
+.lc-hit { fill: transparent; cursor: crosshair; }
+.lc-tip { position: absolute; z-index: 5; pointer-events: none; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line-strong); background: var(--surface); box-shadow: var(--shadow-card); font-size: 0.82rem; line-height: 1.5; color: var(--text-primary); white-space: nowrap; }
+.chart-note { margin: 10px 0 0; font-size: 0.78rem; color: var(--text-tertiary); line-height: 1.55; }
+.chart-table-view { margin-top: 10px; font-size: 0.85rem; }
+.chart-table-view summary { cursor: pointer; color: var(--brand); }
+
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.cmp-table th, .cmp-table td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.cmp-table th { font-size: 0.78rem; letter-spacing: 0.04em; color: var(--text-secondary); font-weight: 700; }
+.cmp-table td.num, .cmp-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.help-wrap { overflow-x: auto; }
+
+@media (max-width: 720px) {
+  .cmp-table th, .cmp-table td { padding: 8px 6px; font-size: 0.84rem; }
+  .trend-cards { grid-template-columns: 1fr 1fr; }
+  .trend-status { align-items: flex-start; }
+}
+
+.bar-rect { fill: var(--brand); }
+.bar-rect.is-hover { fill: var(--text-primary); }
+.bar-value { fill: var(--text-primary); font-size: 11px; font-weight: 700; font-family: var(--font-body); }
+.bar-none { fill: var(--text-tertiary); font-size: 10px; font-family: var(--font-body); }
+.range-bar { flex-wrap: wrap; justify-content: center; border-radius: 22px; }
+@media (max-width: 520px) { .range-btn { padding: 8px 12px; font-size: 0.85rem; } }

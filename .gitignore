@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.db
+.env
+venv/
+.venv/
+.ua/
+model/
+model2/
+.claude/
+.vscode/
+*.pdf

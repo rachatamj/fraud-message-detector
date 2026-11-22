@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ประวัติการตรวจสอบ — ตรวจสอบข้อความหลอกลวง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/static/style.css" />
+<script src="/static/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-nav">
+    <a class="brand" href="/">
+      <span class="brand-name">ตรวจสอบข้อความ</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">หน้าแรก</a>
+      <a href="/history" class="nav-link is-active">ประวัติการตรวจสอบ</a>
+      <a href="/trend" class="nav-link">แนวโน้มความเสี่ยง</a>
+      <a href="/recovery" class="nav-link">รับมือเมื่อถูกหลอก</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="icon-btn" type="button" title="สลับธีมสี">☀️</button>
+      <div id="authArea" class="auth-area"></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <h1 class="hero-title">ประวัติการตรวจสอบ</h1>
+    <p class="hero-sub">แสดงผลการตรวจสอบล่าสุดของบัญชีคุณเท่านั้น (ไม่เกิน 20 รายการ) ลบได้ทุกเมื่อ</p>
+
+    <div id="statusBanner" class="status-banner hidden" role="alert"></div>
+
+    <div class="history-toolbar">
+      <span id="historyCount" class="history-count"></span>
+      <button id="clearAllBtn" class="btn btn-danger-ghost hidden" type="button">ล้างประวัติทั้งหมด</button>
+    </div>
+
+    <div id="historyEmpty" class="empty-state hidden">
+      ยังไม่มีประวัติการตรวจสอบ ลองไปตรวจสอบข้อความที่หน้าแรกได้เลย
+      <div style="margin-top: 16px;"><a class="btn btn-primary" href="/" style="text-decoration:none; display:inline-block;">ไปตรวจสอบข้อความ</a></div>
+    </div>
+
+    <div id="historyLoading" class="loading-state">กำลังโหลดประวัติ...</div>
+
+    <div id="historyList" class="history-list"></div>
+  </main>
+
+  <footer class="app-footer">
+    <span>ประวัติเก็บเฉพาะบัญชีของคุณ ไม่แสดงให้ผู้ใช้อื่นเห็น</span>
+  </footer>
+
+<script src="/static/history.js"></script>
+</body>
+</html>

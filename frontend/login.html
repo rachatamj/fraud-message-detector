@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>เข้าสู่ระบบ — ตรวจสอบข้อความ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Chonburi&family=Noto+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/static/style.css?v=3" />
+<script src="/static/theme.js"></script>
+</head>
+<body>
+
+  <div class="auth-page-shell">
+
+    <div class="auth-topbar">
+      <button id="themeToggle" class="icon-btn" type="button" title="สลับธีมสี">☀️</button>
+    </div>
+
+    <div class="auth-shell">
+      <h1 class="auth-title">ตรวจสอบข้อความ</h1>
+      <p class="auth-subtitle">เข้าสู่ระบบเพื่อใช้งานเครื่องมือวิเคราะห์ข้อความภาษาไทย</p>
+
+      <div class="auth-tabs">
+        <button id="tabLogin" class="auth-tab active" type="button">เข้าสู่ระบบ</button>
+        <button id="tabRegister" class="auth-tab" type="button">สมัครสมาชิก</button>
+      </div>
+
+      <div id="authBanner" class="status-banner hidden" role="alert"></div>
+
+      <form id="loginForm" class="auth-form">
+        <label class="form-label" for="loginUsername">ชื่อผู้ใช้</label>
+        <input id="loginUsername" class="form-input" type="text" autocomplete="username" required />
+
+        <label class="form-label" for="loginPassword">รหัสผ่าน</label>
+        <input id="loginPassword" class="form-input" type="password" autocomplete="current-password" required />
+
+        <button type="submit" class="btn btn-primary auth-submit">เข้าสู่ระบบ</button>
+      </form>
+
+      <form id="registerForm" class="auth-form hidden">
+        <label class="form-label" for="registerUsername">ชื่อผู้ใช้ (อย่างน้อย 3 ตัวอักษร)</label>
+        <input id="registerUsername" class="form-input" type="text" autocomplete="username" required minlength="3" />
+
+        <label class="form-label" for="registerPassword">รหัสผ่าน</label>
+        <input id="registerPassword" class="form-input" type="password" autocomplete="new-password" required minlength="8" aria-describedby="pwRules pwStrengthText" />
+        <div id="pwFeedback" class="hidden">
+          <div class="pw-meter" aria-hidden="true"><div id="pwMeterFill" class="pw-meter-fill"></div></div>
+          <p id="pwStrengthText" class="pw-strength-text">ความแข็งแรงของรหัสผ่าน: -</p>
+          <ul id="pwRules" class="pw-rules">
+            <li data-rule="length">อย่างน้อย 8 ตัวอักษร</li>
+            <li data-rule="letter">มีตัวอักษร</li>
+            <li data-rule="digit">มีตัวเลข</li>
+            <li data-rule="noname">ไม่มีชื่อผู้ใช้อยู่ในรหัสผ่าน</li>
+          </ul>
+        </div>
+
+        <label class="form-label" for="registerConfirm">ยืนยันรหัสผ่าน</label>
+        <input id="registerConfirm" class="form-input" type="password" autocomplete="new-password" required minlength="8" />
+
+        <button type="submit" class="btn btn-primary auth-submit">สมัครสมาชิก</button>
+      </form>
+
+      <div class="footer-links" style="justify-content: center; margin-top: 20px;">
+        <a href="/terms" class="legal-link">ข้อกำหนดการใช้งาน</a>
+        <a href="/contact" class="legal-link">ติดต่อผู้ดูแลระบบ</a>
+      </div>
+    </div>
+
+  </div>
+
+<script src="/static/auth.js?v=3"></script>
+</body>
+</html>

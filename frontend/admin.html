@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>จัดการระบบ — ตรวจสอบข้อความหลอกลวง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="/static/style.css?v=2" />
+<link rel="stylesheet" href="/static/trend.css?v=3" />
+<link rel="stylesheet" href="/static/admin.css?v=1" />
+<script src="/static/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-nav">
+    <a class="brand" href="/">
+      <span class="brand-name">ตรวจสอบข้อความ</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">หน้าแรก</a>
+      <a href="/history" class="nav-link">ประวัติการตรวจสอบ</a>
+      <a href="/trend" class="nav-link">แนวโน้มความเสี่ยง</a>
+      <a href="/recovery" class="nav-link">รับมือเมื่อถูกหลอก</a>
+      <a href="/admin" class="nav-link is-active">จัดการระบบ</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="icon-btn" type="button" title="สลับธีมสี">☀️</button>
+      <div id="authArea" class="auth-area"></div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <h1 class="hero-title">จัดการระบบ</h1>
+    <p class="hero-sub">
+      ภาพรวมการใช้งานและการจัดการบัญชีผู้ใช้ แสดงเฉพาะสถิติ ไม่แสดงข้อความที่ผู้ใช้นำมาตรวจและไม่แสดงรหัสผ่าน
+    </p>
+
+    <div id="adminBanner" class="status-banner hidden" role="alert"></div>
+    <div id="adminLoading" class="loading-state">กำลังโหลดข้อมูล...</div>
+
+    <div id="adminContent" class="dashboard-content hidden">
+
+      <section class="trend-cards" aria-label="สรุปภาพรวมระบบ">
+        <div class="summary-card">
+          <span class="summary-card-label">ผู้ใช้ทั้งหมด</span>
+          <span id="cardUsers" class="summary-card-value">—</span>
+          <span class="summary-card-unit">บัญชี</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-label">การตรวจสอบทั้งหมด</span>
+          <span id="cardChecks" class="summary-card-value">—</span>
+          <span class="summary-card-unit">ครั้ง</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-label">การตรวจสอบวันนี้</span>
+          <span id="cardToday" class="summary-card-value">—</span>
+          <span class="summary-card-unit">ครั้ง</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-label">สถานะโมเดล</span>
+          <span id="cardModel" class="summary-card-value">—</span>
+          <span class="summary-card-unit" id="cardModelNote"></span>
+        </div>
+      </section>
+
+      <section class="panel dash-panel">
+        <h2 class="panel-label">สัดส่วนผลการตรวจสอบทั้งหมด</h2>
+        <div class="risk-split" id="riskSplit" role="img" aria-label="สัดส่วนระดับความเสี่ยงของการตรวจสอบทั้งหมด"></div>
+        <div class="adm-legend" id="riskSplitLegend"></div>
+      </section>
+
+      <section class="panel dash-panel">
+        <h2 class="panel-label">จำนวนการตรวจสอบรายวัน (30 วันล่าสุด)</h2>
+        <div class="adm-legend">
+          <span class="adm-legend-item"><i class="adm-dot is-low"></i>ความเสี่ยงต่ำ</span>
+          <span class="adm-legend-item"><i class="adm-dot is-caution"></i>ควรระมัดระวัง</span>
+          <span class="adm-legend-item"><i class="adm-dot is-high"></i>ความเสี่ยงสูง</span>
+        </div>
+        <div id="dailyChart" class="bar-chart-wrap"></div>
+      </section>
+
+      <section class="panel dash-panel">
+        <h2 class="panel-label">บัญชีผู้ใช้</h2>
+        <div class="help-wrap">
+          <table class="cmp-table" id="userTable">
+            <thead>
+              <tr>
+                <th>ชื่อผู้ใช้</th>
+                <th>สมัครเมื่อ</th>
+                <th class="num">ตรวจแล้ว (ครั้ง)</th>
+                <th>ตรวจล่าสุด</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="userBody"></tbody>
+          </table>
+        </div>
+        <p class="chart-note">
+          ตั้งรหัสผ่านใหม่จะให้ผู้ใช้ออกจากระบบทุกอุปกรณ์ ส่วนการลบบัญชีจะลบประวัติและสถิติของบัญชีนั้นทั้งหมดและย้อนกลับไม่ได้
+          ทุกการจัดการถูกบันทึกไว้ในระบบ
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="pwDialog" class="admin-dialog">
+    <form method="dialog" id="pwForm">
+      <h3 class="admin-dialog-title">ตั้งรหัสผ่านใหม่ให้ <span id="pwTarget"></span></h3>
+      <label class="form-label" for="pwInput">รหัสผ่านใหม่ (อย่างน้อย 6 ตัวอักษร)</label>
+      <input id="pwInput" class="form-input" type="text" autocomplete="off" minlength="6" maxlength="128" />
+      <div class="admin-dialog-row">
+        <button type="button" id="pwGenBtn" class="btn btn-ghost btn-small">สุ่มรหัสผ่าน</button>
+        <span class="chart-note" id="pwHint">จดรหัสผ่านนี้ส่งให้ผู้ใช้ เพราะระบบไม่เก็บรหัสผ่านเดิมไว้ดูได้</span>
+      </div>
+      <p id="pwError" class="admin-error hidden" role="alert"></p>
+      <div class="admin-dialog-actions">
+        <button type="button" id="pwCancel" class="btn btn-ghost">ยกเลิก</button>
+        <button type="submit" id="pwSave" class="btn btn-primary">บันทึกรหัสผ่านใหม่</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="app-footer">
+    <span id="modelStatusText">สำหรับผู้ดูแลระบบเท่านั้น</span>
+  </footer>
+
+<script src="/static/admin.js?v=1"></script>
+</body>
+</html>
